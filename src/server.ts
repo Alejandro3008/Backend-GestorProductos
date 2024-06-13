@@ -23,14 +23,18 @@ connectDB()
 const server = express()
 
 // Permitir conexiones
-/**const corsOptions:CorsOptions = {
+const corsOptions:CorsOptions = {
     origin: function(origin,callback){
-        console.log(origin)
+        if(origin === process.env.FRONTEND_URL){
+            callback(null,true)
+        }else{
+            callback(new Error('Error de cors'))
+        }
     }
-}**/
-//server.use(cors(corsOptions))
+}
+server.use(cors(corsOptions))
 
-server.use(cors())
+//server.use(cors())
 
 //* Leer datos de formulario
 server.use(express.json())
